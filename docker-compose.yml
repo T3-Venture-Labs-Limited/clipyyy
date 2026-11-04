@@ -1,0 +1,14 @@
+services:
+  clipyyy:
+    build: .
+    image: clipyyy
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./data:/data
+    environment:
+      # Optional: keys can also be added in the web UI under Settings.
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - PEXELS_API_KEY=${PEXELS_API_KEY:-}
+      - BUFFER_API_KEY=${BUFFER_API_KEY:-}
+    restart: unless-stopped

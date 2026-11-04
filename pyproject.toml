@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clipyyy"
+version = "0.1.0"
+description = "Free, open-source AI video clipper: turn long videos and podcasts into TikTok, Reels and YouTube Shorts clips with captions. Self-hosted OpusClip alternative."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11,<3.13"
+keywords = ["ai-video-clipper", "opusclip-alternative", "youtube-shorts", "tiktok", "instagram-reels", "podcast-clips", "video-to-shorts", "auto-captions", "whisper", "ffmpeg", "llm", "openrouter"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Video",
+  "Environment :: Web Environment",
+]
+dependencies = [
+  "boto3>=1.35",
+  "fastapi>=0.115,<1",
+  "faster-whisper>=1.1",
+  "httpx>=0.28,<1",
+  "mediapipe>=0.10.20",
+  "numpy>=1.26",
+  "pydantic>=2.10,<3",
+  "python-multipart>=0.0.12",
+  "uvicorn[standard]>=0.34,<1",
+  "yt-dlp[default]>=2025.11.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/T3-Venture-Labs-Limited/clipyyy"
+Issues = "https://github.com/T3-Venture-Labs-Limited/clipyyy/issues"
+
+[project.scripts]
+clipyyy = "clipyyy.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.11",
+]
+
+[tool.hatch.build]
+# The built web UI is gitignored but must ship in the wheel.
+artifacts = ["src/clipyyy/web/"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clipyyy"]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: needs ffmpeg and network or model downloads"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

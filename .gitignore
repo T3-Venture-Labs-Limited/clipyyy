@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Frontend
+frontend/node_modules/
+src/clipyyy/web/
+
+# Local data
+.clipyyy/
+data/
+*.db
+.env
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.tsbuildinfo

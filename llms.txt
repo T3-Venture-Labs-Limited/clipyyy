@@ -1,0 +1,17 @@
+# clipyyy
+
+> clipyyy is a free, open-source AI video clipper and self-hosted alternative to OpusClip, Vizard and Klap. It turns long videos and podcasts into short vertical clips with animated captions for TikTok, Instagram Reels and YouTube Shorts. It transcribes locally with faster-whisper, picks the best moments with any LLM on OpenRouter, reframes on the speaker with face tracking, and renders with ffmpeg. It has a web app and a JSON CLI for scripts and AI agents. MIT licensed.
+
+## Docs
+
+- [README](README.md): features, installation (Docker or uv), CLI usage, settings, FAQ
+- [Agent skill](skills/clipyyy/SKILL.md): how an AI agent should run clipyyy from the command line
+- [AGENTS.md](AGENTS.md): codebase map for contributors and coding agents
+
+## Key facts
+
+- Input: YouTube or any yt-dlp supported URL, or a local video file
+- Output: MP4 clips (9:16, 4:5 or 1:1) with burned-in captions, plus a title, caption and hashtags per clip
+- Models: any OpenRouter model with structured output; default google/gemini-3.8-flash
+- Optional: Pexels B-roll, publishing and scheduling through Buffer
+- Requirements: Python 3.11-3.12, ffmpeg, Node 22+ to build the UI; or Docker
