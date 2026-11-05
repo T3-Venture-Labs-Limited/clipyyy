@@ -9,12 +9,33 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v6
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: uv sync --python 3.12
       - run: uv run ruff check src tests
       - run: uv run ruff format --check src tests
+      - run: uv run pytest -q
+
+  # Macs: Homebrew's ffmpeg-full is keg-only (not on the PATH), so this also checks that
+  # clipyyy finds it on its own.
+  macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-latest, macos-15-intel]
+    runs-on: ${{ matrix.runner }}
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: brew install ffmpeg-full
+      - run: uv sync --python 3.12
+      - run: uv run clipyyy doctor || true  # an AI key is not set in CI
+      - run: uv run python -c "from clipyyy.media import find_ffmpeg as f; r = f(); print(r); assert r.libass"
+      - run: uv run python -c "import mediapipe, faster_whisper; print('mediapipe', mediapipe.__version__)"
       - run: uv run pytest -q
 
   frontend:
@@ -23,8 +44,8 @@ jobs:
       run:
         working-directory: frontend
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm

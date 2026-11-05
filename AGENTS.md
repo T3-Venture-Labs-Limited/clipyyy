@@ -24,3 +24,5 @@ Use the CLI with `--json`. Start with `clipyyy doctor --json`, then `clipyyy cli
 - Run `uv run pytest -q` and `uv run ruff check src tests` before finishing. Tests need ffmpeg but no network or API keys.
 - Keep modules small and dependencies few. Prefer the standard library.
 - Never commit API keys, cookies or files from `CLIPYYY_HOME`.
+
+Never call `ffmpeg` or `ffprobe` by name: use `media.ffmpeg_bin()` / `media.ffprobe_bin()`. On macOS the ffmpeg that can draw captions is Homebrew's keg-only `ffmpeg-full`, which is not on the PATH.
