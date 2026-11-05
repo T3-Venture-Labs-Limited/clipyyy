@@ -20,13 +20,11 @@ dependencies = [
   "fastapi>=0.115,<1",
   "faster-whisper>=1.1",
   "httpx>=0.28,<1",
-  # Intel Macs: the last MediaPipe (and its dependencies) and onnxruntime with Intel Mac builds.
+  # MediaPipe (face tracking) has no Intel Mac builds; there, clips are centre-cropped.
+  # onnxruntime 1.23 is the last release with Intel Mac builds.
   "mediapipe>=0.10.20; sys_platform != 'darwin' or platform_machine != 'x86_64'",
-  "mediapipe>=0.10.20,<0.10.22; sys_platform == 'darwin' and platform_machine == 'x86_64'",
   "onnxruntime<1.24; sys_platform == 'darwin' and platform_machine == 'x86_64'",
-  "jax<0.5; sys_platform == 'darwin' and platform_machine == 'x86_64'",
-  "jaxlib<0.5; sys_platform == 'darwin' and platform_machine == 'x86_64'",
-  "sentencepiece<0.2.3; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+  "protobuf>=5.29.6",  # GHSA-7gcm-g887-7qv7
   "numpy>=1.26",
   "pydantic>=2.10,<3",
   "python-multipart>=0.0.12",
