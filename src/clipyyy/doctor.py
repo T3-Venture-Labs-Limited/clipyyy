@@ -2,34 +2,31 @@
 
 from __future__ import annotations
 
-import shutil
-import subprocess
-
 from clipyyy.config import get_setting
+from clipyyy.media import find_ffmpeg, install_hint
 from clipyyy.publish import storage_configured
 from clipyyy.source import js_runtime
 
 
 def checks() -> list[dict]:
-    ffmpeg = shutil.which("ffmpeg")
-    libass = False
-    if ffmpeg:
-        filters = subprocess.run([ffmpeg, "-hide_banner", "-filters"], capture_output=True, text=True)
-        libass = " ass " in filters.stdout
+    found = find_ffmpeg()
+    ffmpeg, libass = found.ffmpeg, found.libass
     llm_key = bool(get_setting("openrouter_api_key"))
     runtime = js_runtime()
     return [
         _check(
             "ffmpeg",
-            bool(ffmpeg and shutil.which("ffprobe")),
+            bool(ffmpeg and found.ffprobe),
             True,
-            "found" if ffmpeg else "install ffmpeg and make sure it is on PATH",
+            ffmpeg if ffmpeg and found.ffprobe else f"ffmpeg and ffprobe not found. {install_hint()}",
         ),
         _check(
             "captions",
             libass,
             True,
-            "ffmpeg has libass" if libass else "your ffmpeg build lacks libass; captions will fail",
+            "ffmpeg has libass"
+            if libass
+            else f"this ffmpeg can't draw captions (it has no libass). {install_hint()}",
         ),
         _check(
             "downloads",

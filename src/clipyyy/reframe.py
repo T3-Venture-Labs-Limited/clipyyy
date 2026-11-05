@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from clipyyy.config import home
-from clipyyy.media import probe, run_ffmpeg
+from clipyyy.media import ffmpeg_bin, probe, run_ffmpeg
 
 SAMPLE_FPS = 2
 MIN_FACE_RATIO = 0.5
@@ -120,7 +120,7 @@ def sample_faces(clip_path: Path, width: int, height: int) -> list[tuple[float, 
     frame_bytes = width * height * 3
     proc = subprocess.Popen(
         [
-            "ffmpeg",
+            ffmpeg_bin(),
             "-hide_banner",
             "-loglevel",
             "error",

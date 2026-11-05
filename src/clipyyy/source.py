@@ -68,8 +68,18 @@ def js_runtime() -> str | None:
 
 def base_args() -> list[str]:
     from clipyyy.config import get_setting
+    from clipyyy.media import ffmpeg_bin
 
-    args = [sys.executable, "-m", "yt_dlp", "--no-playlist", "--no-warnings"]
+    # yt-dlp merges video and audio with ffmpeg; give it the one clipyyy found.
+    args = [
+        sys.executable,
+        "-m",
+        "yt_dlp",
+        "--no-playlist",
+        "--no-warnings",
+        "--ffmpeg-location",
+        ffmpeg_bin(),
+    ]
     runtime = js_runtime()
     if runtime:
         args += ["--js-runtimes", runtime]

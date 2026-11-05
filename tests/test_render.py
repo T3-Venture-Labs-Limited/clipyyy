@@ -1,15 +1,13 @@
 """Render a synthetic video end to end with ffmpeg (no network, no models)."""
 
-import shutil
-
 import pytest
 
-from clipyyy.media import has_audio, probe, run_ffmpeg
+from clipyyy.media import find_ffmpeg, has_audio, probe, run_ffmpeg
 from clipyyy.reframe import center_plan
 from clipyyy.render import render_clips
 from clipyyy.timeline import plan_timeline
 
-pytestmark = pytest.mark.skipif(not shutil.which("ffmpeg"), reason="needs ffmpeg")
+pytestmark = pytest.mark.skipif(not find_ffmpeg().ffmpeg, reason="needs ffmpeg")
 
 
 @pytest.mark.parametrize("aspect,size", [("9:16", (1080, 1920)), ("1:1", (1080, 1080))])

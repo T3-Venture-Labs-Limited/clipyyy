@@ -51,7 +51,7 @@ Open http://localhost:8000, paste your [OpenRouter API key](https://openrouter.a
 
 ### From source
 
-Requires Python 3.11 or 3.12, Node 22+, [uv](https://docs.astral.sh/uv/), ffmpeg, and deno or node for YouTube downloads.
+Requires Python 3.11 or 3.12, Node 22+, [uv](https://docs.astral.sh/uv/), ffmpeg with libass (Linux distribution packages include it; on a Mac see [below](#macos)), and deno or node for YouTube downloads.
 
 ```bash
 git clone https://github.com/T3-Venture-Labs-Limited/clipyyy
@@ -62,6 +62,18 @@ uv run clipyyy serve
 ```
 
 Open http://127.0.0.1:8000. Run `uv run clipyyy doctor` to check your setup.
+
+### macOS
+
+clipyyy runs on Apple Silicon Macs with macOS 14 (Sonoma) or newer, and on Intel Macs with macOS 13 (Ventura) or newer. Install the tools with [Homebrew](https://brew.sh), then follow the steps above:
+
+```bash
+brew install ffmpeg-full uv node deno
+```
+
+- **Use `ffmpeg-full`, not `ffmpeg`.** Homebrew's standard `ffmpeg` is built without libass, so it can't draw captions. `ffmpeg-full` can. If you already have Homebrew's `ffmpeg`, `ffmpeg-full` is installed beside it rather than replacing it; clipyyy finds it either way. `uv run clipyyy doctor` shows which ffmpeg is used, and `CLIPYYY_FFMPEG` points it at another one.
+- **Transcription** runs on the processor, not the Mac's GPU. A smaller Whisper model under Settings is faster.
+- **Docker** works too, with Docker Desktop on both Apple Silicon and Intel.
 
 ## CLI and AI agents
 
@@ -164,6 +176,9 @@ clipyyy is a free, open-source OpusClip alternative that runs locally, has no wa
 
 **Can it clip podcasts?**
 Yes, video podcasts. Upload the recording or paste a YouTube or other link. Audio-only files are not supported yet because clips need a picture.
+
+**Does it work on a Mac?**
+Yes: Apple Silicon with macOS 14 or newer, and Intel with macOS 13 or newer. Install `ffmpeg-full` from Homebrew rather than `ffmpeg`; see [macOS](#macos).
 
 **Does it need a GPU?**
 No. Transcription runs on the CPU; an hour of video takes several minutes. A CUDA GPU makes it faster and is used automatically when available.

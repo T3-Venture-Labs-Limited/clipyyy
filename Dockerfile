@@ -9,7 +9,7 @@ RUN mkdir -p ../src/clipyyy && npm run build
 # Runtime: Python + ffmpeg (with libass for captions)
 FROM python:3.12-slim
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ffmpeg \
+    && apt-get install -y --no-install-recommends ffmpeg libegl1 libgles2 \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 # yt-dlp needs a JavaScript runtime to solve YouTube player challenges
