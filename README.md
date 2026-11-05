@@ -73,6 +73,7 @@ brew install ffmpeg-full uv node deno
 
 - **Use `ffmpeg-full`, not `ffmpeg`.** Homebrew's standard `ffmpeg` is built without libass, so it can't draw captions. `ffmpeg-full` can. If you already have Homebrew's `ffmpeg`, `ffmpeg-full` is installed beside it rather than replacing it; clipyyy finds it either way. `uv run clipyyy doctor` shows which ffmpeg is used, and `CLIPYYY_FFMPEG` points it at another one.
 - **Transcription** runs on the processor, not the Mac's GPU. A smaller Whisper model under Settings is faster.
+- **Intel Macs** get everything except face tracking: the face detector (MediaPipe) no longer supports them, so vertical clips are cropped from the centre.
 - **Docker** works too, with Docker Desktop on both Apple Silicon and Intel.
 
 ## CLI and AI agents
